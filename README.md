@@ -11,27 +11,29 @@
 * **Sistema:**
 
 	O bloco de interface contém um display de LCD 16x2 e 4 botões. O display apresenta a temperatura atual, a temperatura desejada (set-point) e o estado atual da saída (aquecendo, resfriando, desabilitado). 
+	
 	Os botões são utilizados para alterar o os parâmetros do controlador e valor de set point:
 	
 	<div align="center">
 	<img src="botoes.PNG" alt="botoes" width="50%" height="20%"/></center>
 	</div>
 	
-	Teclado:
-		P: Programar/Alternar telas.
-		+: Incrementa um valor numérico, modifica uma saída para ON.
-		-: Decrementa um valor numérico, modifica uma saída para OFF.
-		S: Confirma o ajuste atual.
+Teclado:
+
+	P: Programar/Alternar telas.
+	+: Incrementa um valor numérico, modifica uma saída para ON.
+	-: Decrementa um valor numérico, modifica uma saída para OFF.
+	S: Confirma o ajuste atual.
 
 Os botões do teclado servem para ajustar:
-- Um novo set-point.
-- Valor do ganho proporcional do controlador.
-- Desabilitar o controlador (desligar o driver independente do ajuste de
-temperatura)
-- Ligar/Desligar manualmente o aquecedor.
-- Ajustar o valor da saída do aquecedor no modo manual (0...100%).
-- Ligar/Desligar manualmente o ventilador.
-- Ajustar o valor da saída do ventilador no modo manual (0...100%).
+	- Um novo set-point.
+	- Valor do ganho proporcional do controlador.
+	- Desabilitar o controlador (desligar o driver independente do ajuste de
+	temperatura)
+	- Ligar/Desligar manualmente o aquecedor.
+	- Ajustar o valor da saída do aquecedor no modo manual (0...100%).
+	- Ligar/Desligar manualmente o ventilador.
+	- Ajustar o valor da saída do ventilador no modo manual (0...100%).
 
 * **Display:**
 
@@ -83,5 +85,5 @@ Tela 6: Desabilitar Driver de saída
 * **Montagem prática:**
 
 <div align="center">
-<img src="montagem.PNG" alt="montagem" width="50%" height="20%"/></center>
+<img src="montagem.jpeg" alt="montagem" width="50%" height="20%"/></center>
 </div>
