@@ -42,7 +42,8 @@ void modo_sistema();
 // variaveis
 extern int tela;
 extern int heat_status;
-extern int kp;
+extern int kpHeat;
+extern int kpFan;
 extern int saidaHeat;
 extern int saidaFan;
 extern int fan_status;

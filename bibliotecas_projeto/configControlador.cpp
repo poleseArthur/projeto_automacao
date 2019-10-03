@@ -9,7 +9,8 @@
 #include "prjLib.h"
 
 int heat_status = 0;
-int kp = 15;
+int kpHeat = 10;
+int kpFan = 10;
 int saidaHeat = 0;
 int saidaFan = 0;
 int fan_status = 0;
@@ -60,18 +61,18 @@ proporcional (Kp) e aplicado a saï¿½da. */
 void heat()
 {
 	// mapeamento para o resistor
-	controladorProporcionalHeat = (setPoint - processValue) * kp;
+	controladorProporcionalHeat = (setPoint - processValue) * kpHeat;
 	controladorProporcionalHeat = map(controladorProporcionalHeat, 0, 100, 0, 70);
 
 	// verifica se o Modo Manual do Heat está ativo.
 	// Se tiver, recebe o valor da temperatura com o ganho
 	// Se não estiver, recebe o valor da saida definida
-	if (modo_controlador == 0 && heat_status == 1)
+	if (modo_controlador == 0)
 	{
 		analogWrite(input1, controladorProporcionalHeat);
 		analogWrite(input2, 0);
 	}
-	else if(heat_status == 1)
+	else if(modo_controlador == 1 && heat_status == 1)
 	{
 		analogWrite(input1, (saidaHeat * 255) / 100);
 		analogWrite(input2, 0);
@@ -81,21 +82,22 @@ void heat()
 void fan()
 {
 	// mapeamento para o ventilador
-	controladorProporcionalFan = (setPoint + processValue) * kp;
+	controladorProporcionalFan = (setPoint + processValue) * kpFan;
 	controladorProporcionalFan = map(controladorProporcionalFan, 0, 100, 56, 255);
 
-	if (modo_controlador == 0 && fan_status == 1)
+	if (modo_controlador == 0)
 	{
 		analogWrite(input1, 0);
 		analogWrite(input2, controladorProporcionalFan);
 	}
-	else if(fan_status == 1)
+	else if(modo_controlador == 1 && fan_status == 1)
 	{
 		analogWrite(input1, 0);
 		analogWrite(input2, (saidaFan * 255) / 100);
 	}
 }
 
+// funcao para controle do modo do sistema 0 -> automatico, 1 -> manual
 void modo_sistema(void)
 {
 	if(heat_status == 0 && fan_status == 0)

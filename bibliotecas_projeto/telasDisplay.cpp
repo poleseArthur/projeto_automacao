@@ -13,6 +13,9 @@ int temp_status = 0; // 0 -> Ventilando / 1 - > Aquece
 int driver_status = 0;
 int buttonS_saidaHeat = 0;
 int buttonS_saidaFan = 0;
+int seleciona = 0;
+int selecionaKpHeat = 0;
+int selecionaKpFan = 0;
 
 LiquidCrystal lcd(12, 11, 7, 4, 3, 2);
 
@@ -29,9 +32,13 @@ void limpa_lcd(void)
 	lcd.clear();
 }
 
+/*
+ * funcoes de controle das telas dos sistema
+ * e as operacoes dos botoes para incremento/decremento de variaveis
+ */
 void estado_atual_do_sistema(void)
 {
-	const char linha1[] = "SP:     C", linha2[] = "PV:     C";
+	const char linha1[] = "SP:     C", linha2[] = "PV:     C", linhaDriver[] = "Driver";
 	const char linhaHeat[] = "Heat", linhaFan[] = "Fan ", linhaOn[] = "ON", linhaOff[] = "OFF";
 
 	controlador_proporcional();
@@ -78,6 +85,8 @@ void estado_atual_do_sistema(void)
 
 	if(driver_status == 0)
 	{
+		lcd.setCursor(10, 0);
+		lcd.print(linhaDriver);
 		lcd.setCursor(12, 1);
 		lcd.print(linhaOff);
 	}
@@ -118,25 +127,98 @@ void ajuste_do_set_point(void)
 
 void ajuste_do_ganho_proporcional(void)
 {
-	const char linha1[] = "New Prop Gain", linha2[] = "Kp: ";
+	const char linha1[] = "New Prop Gain", linha2Heat[] = "Kp Heat:", linha2Fan[] = "Kp Fan:";
+	const char linhaSeleciona[] = "*";
 
-	lcd.setCursor(0, 0);
-	lcd.print(linha1);
-	lcd.setCursor(0, 1);
-	lcd.print(linha2);
-	lcd.setCursor(4, 1);
-	lcd.print(kp);
-
-	if(up_fell())
+	if(seleciona == 0)
 	{
-		limpa_lcd();
-		kp++;
+		lcd.setCursor(0, 0);
+		lcd.print(linha1);
+		lcd.setCursor(1, 1);
+		lcd.print(linha2Heat);
+		lcd.setCursor(10, 1);
+		lcd.print(kpHeat);
+
+		if(selecionaKpHeat==0)
+		{
+			if(s_fell())
+			{
+				limpa_lcd();
+				selecionaKpHeat=1;
+			}
+			if(down_fell())
+			{
+				limpa_lcd();
+				seleciona = 1;
+			}
+		}
+		else
+		{
+			lcd.setCursor(0, 1);
+			lcd.print(linhaSeleciona);
+
+			if(s_fell())
+			{
+				limpa_lcd();
+				selecionaKpHeat=0;
+			}
+			if(down_fell())
+			{
+				limpa_lcd();
+				if(kpHeat<1) kpHeat = 1;
+				kpHeat--;
+			}
+			if(up_fell())
+			{
+				limpa_lcd();
+				kpHeat++;
+			}
+		}
 	}
-	if(down_fell())
+	else
 	{
-		limpa_lcd();
-		kp--;
-		if(kp<1) kp=1;
+		lcd.setCursor(0, 0);
+		lcd.print(linha1);
+		lcd.setCursor(1, 1);
+		lcd.print(linha2Fan);
+		lcd.setCursor(9, 1);
+		lcd.print(kpFan);
+
+		if(selecionaKpFan==0)
+		{
+			if(s_fell())
+			{
+				limpa_lcd();
+				selecionaKpFan=1;
+			}
+			if(up_fell())
+			{
+				limpa_lcd();
+				seleciona = 0;
+			}
+		}
+		else
+		{
+			lcd.setCursor(0, 1);
+			lcd.print(linhaSeleciona);
+
+			if(s_fell())
+			{
+				limpa_lcd();
+				selecionaKpFan=0;
+			}
+			if(down_fell())
+			{
+				limpa_lcd();
+				if(kpFan<1) kpFan = 1;
+				kpFan--;
+			}
+			if(up_fell())
+			{
+				limpa_lcd();
+				kpFan++;
+			}
+		}
 	}
 }
 
@@ -180,7 +262,6 @@ void modo_manual_aquecedor(void)
 					if(saidaHeat < 0) saidaHeat = 0;
 					posicao_porcentagem();
 				}
-
 
 				if(s_fell() && buttonS_saidaHeat == 1)
 				{
@@ -307,6 +388,7 @@ void desabilitar_driver_de_saida(void)
 
 void posicao_porcentagem(void)
 {
+	// funcao para definir a posicao do simbolo % no display
 	if(tela==4)
 	{
 		if(saidaHeat < 10)

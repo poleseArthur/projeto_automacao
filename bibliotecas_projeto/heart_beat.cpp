@@ -11,7 +11,7 @@
 const int redLedPin = A2;       //Pino onde está o LED vermelho
 int redLedState = LOW;          //Estado inicial do led
 unsigned long previousMillis = 0;        // Variável de controle do tempo
-unsigned long redLedInterval = 1000;     // Tempo em ms do intervalo a ser executado
+unsigned long redLedInterval = 500;     // Tempo em ms do intervalo a ser executado
 
 void heartBeat_setup(void)
 {

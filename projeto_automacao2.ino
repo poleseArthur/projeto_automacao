@@ -3,6 +3,7 @@
 
 void setup()
 {
+	// todas as funcoes de setup do sistema
 	iniciar_display();
 	debouncer_setup();
 	controlador_setup();

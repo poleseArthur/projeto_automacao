@@ -38,6 +38,7 @@ void debouncer_setup(void)
 	s_botao.interval(5);
 }
 
+// funcao para chamada do update dos botoes em loop
 void debouncer_loop(void)
 {
 	p_botao.update();
@@ -46,6 +47,7 @@ void debouncer_loop(void)
 	s_botao.update();
 }
 
+// se algum botao eh pressionado, retorna true
 bool p_fell()
 {
 	if (p_botao.fell()) return true;
