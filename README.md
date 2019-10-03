@@ -69,8 +69,8 @@ O projeto apresenta as seguintes telas:
 			Driver habilitado, tanto para o aquecedor quanto para o ventilador
 
 * **Periféricos:**
-   - Sensor de temperatura utilizado é o sensor analógico LM35.
-   - MCU ATMega328p (Arduino).
+   - Sensor de temperatura analógico: LM35.
+   - Arduino ATMega328p.
    - L293D: Ponte H utilizada para controlar ventilador e aquecedor.
    - Ventilador: Utilizado para o modo Fan.
    - Aquecedor: Utilizado para o modo Heat.
